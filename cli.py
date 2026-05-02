@@ -1,4 +1,4 @@
-"""Command-line interface for filtering spreadsheets."""
+"""Интерфейс командной строки для фильтрации электронных таблиц."""
 
 from __future__ import annotations
 

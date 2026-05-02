@@ -1,4 +1,4 @@
-"""Input/output helpers for CSV and XLSX files."""
+"""Помощники по вводу/выводу для файлов CSV и XLSX."""
 
 from __future__ import annotations
 

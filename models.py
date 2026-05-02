@@ -1,4 +1,4 @@
-"""Data models for spreadsheet filtering."""
+"""Модели данных для фильтрации электронных таблиц."""
 
 from dataclasses import dataclass
 from typing import Any

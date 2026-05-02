@@ -1,4 +1,4 @@
-"""SQLite storage for filter presets and operation history."""
+"""Хранилище SQLite для предустановок фильтров и истории операций."""
 
 from __future__ import annotations
 

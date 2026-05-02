@@ -1,4 +1,4 @@
-"""Spreadsheet filtering package."""
+"""Пакет фильтрации электронных таблиц."""
 
 from .filter_engine import FilterEngine
 from .models import FilterCondition
