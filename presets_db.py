@@ -1,4 +1,4 @@
-"""Хранилище SQLite для предустановок фильтров и истории операций."""
+"""SQLite-хранилище пресетов фильтрации и истории операций."""
 
 from __future__ import annotations
 
@@ -28,13 +28,14 @@ CREATE TABLE IF NOT EXISTS operation_log (
 
 
 class PresetRepository:
-    """Repository for saving filter presets and logging operations."""
+    """Репозиторий для сохранения пресетов фильтрации и журналирования операций."""
 
     def __init__(self, db_path: str | Path = "filter_presets.db") -> None:
         self.db_path = db_path
         self._ensure_schema()
 
     def save_preset(self, name: str, conditions: list[dict[str, Any]]) -> None:
+        """Сохраняет или обновляет пресет фильтрации."""
         with sqlite3.connect(self.db_path) as connection:
             connection.execute(
                 """
@@ -48,6 +49,7 @@ class PresetRepository:
             )
 
     def list_presets(self) -> list[dict[str, Any]]:
+        """Возвращает список сохраненных пресетов фильтрации."""
         with sqlite3.connect(self.db_path) as connection:
             rows = connection.execute(
                 "SELECT id, name, conditions_json, created_at FROM filter_presets ORDER BY name"
@@ -64,6 +66,7 @@ class PresetRepository:
         rows_before: int,
         rows_after: int,
     ) -> None:
+        """Добавляет запись о выполненной фильтрации в журнал операций."""
         with sqlite3.connect(self.db_path) as connection:
             connection.execute(
                 """
@@ -74,8 +77,10 @@ class PresetRepository:
             )
 
     def _ensure_schema(self) -> None:
+        """Создает таблицы SQLite, если они еще не существуют."""
         with sqlite3.connect(self.db_path) as connection:
             connection.executescript(SCHEMA)
 
     def _now(self) -> str:
+        """Возвращает текущую дату и время в формате ISO."""
         return datetime.now(tz=timezone.utc).isoformat()

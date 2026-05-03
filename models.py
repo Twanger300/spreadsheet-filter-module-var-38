@@ -6,7 +6,7 @@ from typing import Any
 
 @dataclass(frozen=True)
 class FilterCondition:
-    """Single filter condition applied to a spreadsheet column."""
+    """Одно условие фильтрации, применяемое к столбцу таблицы."""
 
     column: str
     operation: str

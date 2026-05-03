@@ -1,4 +1,4 @@
-"""Помощники по вводу/выводу для файлов CSV и XLSX."""
+"""Вспомогательные функции для чтения и записи CSV- и XLSX-файлов."""
 
 from __future__ import annotations
 
@@ -12,13 +12,13 @@ Row = dict[str, Any]
 
 
 def read_csv(path: str | Path) -> list[Row]:
-    """Read a CSV file as a list of dictionaries."""
+    """Читает CSV-файл как список словарей."""
     with open(path, newline="", encoding="utf-8-sig") as file:
         return list(csv.DictReader(file))
 
 
 def write_csv(path: str | Path, rows: list[Row]) -> None:
-    """Write rows to CSV. If there are no rows, write an empty file."""
+    """Записывает строки в CSV. Если строк нет, создает пустой файл."""
     fieldnames = list(rows[0].keys()) if rows else []
     with open(path, "w", newline="", encoding="utf-8-sig") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -28,7 +28,7 @@ def write_csv(path: str | Path, rows: list[Row]) -> None:
 
 
 def read_xlsx(path: str | Path, sheet_name: str | None = None) -> list[Row]:
-    """Read the first worksheet or selected worksheet from an XLSX file."""
+    """Читает первый лист или выбранный лист из XLSX-файла."""
     workbook = load_workbook(path, read_only=True, data_only=True)
     sheet = workbook[sheet_name] if sheet_name else workbook.active
     headers = [cell.value for cell in next(sheet.iter_rows(min_row=1, max_row=1))]
@@ -38,8 +38,8 @@ def read_xlsx(path: str | Path, sheet_name: str | None = None) -> list[Row]:
     return rows
 
 
-def write_xlsx(path: str | Path, rows: list[Row], sheet_name: str = "Filtered") -> None:
-    """Write rows to an XLSX worksheet."""
+def write_xlsx(path: str | Path, rows: list[Row], sheet_name: str = "Отфильтровано") -> None:
+    """Записывает строки на лист XLSX-файла."""
     workbook = Workbook()
     sheet = workbook.active
     sheet.title = sheet_name

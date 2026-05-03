@@ -1,4 +1,4 @@
-"""Filtering and sorting logic for tabular rows."""
+"""Логика фильтрации и сортировки строк таблицы."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ Row = dict[str, Any]
 
 
 class FilterEngine:
-    """Applies filter conditions to rows loaded from a spreadsheet."""
+    """Применяет условия фильтрации к строкам, загруженным из электронной таблицы."""
 
     SUPPORTED_OPERATIONS = {
         "equals",
@@ -32,10 +32,10 @@ class FilterEngine:
         conditions: Iterable[FilterCondition],
         logic: str = "AND",
     ) -> list[Row]:
-        """Return rows matching all or any conditions."""
+        """Возвращает строки, которые соответствуют всем условиям или хотя бы одному условию."""
         normalized_logic = logic.upper()
         if normalized_logic not in {"AND", "OR"}:
-            raise ValueError("logic must be AND or OR")
+            raise ValueError("Логика фильтрации должна быть AND или OR")
 
         conditions = list(conditions)
         if not conditions:
@@ -51,12 +51,12 @@ class FilterEngine:
         return result
 
     def sort(self, rows: Iterable[Row], column: str, descending: bool = False) -> list[Row]:
-        """Sort rows by the selected column."""
+        """Сортирует строки по выбранному столбцу."""
         return sorted(rows, key=lambda row: self._normalize_sort_value(row.get(column)), reverse=descending)
 
     def _matches(self, row: Row, condition: FilterCondition) -> bool:
         if condition.operation not in self.SUPPORTED_OPERATIONS:
-            raise ValueError(f"Unsupported filter operation: {condition.operation}")
+            raise ValueError(f"Неподдерживаемая операция фильтрации: {condition.operation}")
 
         value = row.get(condition.column)
         expected = condition.value
@@ -92,14 +92,14 @@ class FilterEngine:
         elif isinstance(value, (tuple, list)) and len(value) == 2:
             start, end = value
         else:
-            raise ValueError("between expects 'start..end' or a pair of values")
+            raise ValueError("Операция between ожидает значение формата 'начало..конец' или пару значений")
         return self._to_decimal(start), self._to_decimal(end)
 
     def _to_decimal(self, value: Any) -> Decimal:
         try:
             return Decimal(str(value).replace(",", ".").strip())
         except (InvalidOperation, AttributeError) as exc:
-            raise ValueError(f"Cannot compare non-numeric value: {value!r}") from exc
+            raise ValueError(f"Невозможно сравнить нечисловое значение: {value!r}") from exc
 
     def _normalize_sort_value(self, value: Any) -> tuple[int, Any]:
         if value is None or str(value).strip() == "":
