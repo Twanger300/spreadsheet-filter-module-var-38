@@ -6,7 +6,11 @@ from collections.abc import Iterable
 from decimal import Decimal, InvalidOperation
 from typing import Any
 
-from .models import FilterCondition
+try:
+    from .models import FilterCondition
+except ImportError:
+    # Этот импорт используется при прямом запуске cli.py из папки spreadsheet_filter.
+    from models import FilterCondition
 
 Row = dict[str, Any]
 
@@ -55,38 +59,39 @@ class FilterEngine:
         return sorted(rows, key=lambda row: self._normalize_sort_value(row.get(column)), reverse=descending)
 
     def _matches(self, row: Row, condition: FilterCondition) -> bool:
+        """Проверяет соответствие одной строки одному условию фильтрации."""
         if condition.operation not in self.SUPPORTED_OPERATIONS:
             raise ValueError(f"Неподдерживаемая операция фильтрации: {condition.operation}")
 
         value = row.get(condition.column)
         expected = condition.value
+        operation = condition.operation
 
-        match condition.operation:
-            case "equals":
-                return str(value).strip().lower() == str(expected).strip().lower()
-            case "contains":
-                return str(expected).strip().lower() in str(value).strip().lower()
-            case "gt":
-                return self._to_decimal(value) > self._to_decimal(expected)
-            case "gte":
-                return self._to_decimal(value) >= self._to_decimal(expected)
-            case "lt":
-                return self._to_decimal(value) < self._to_decimal(expected)
-            case "lte":
-                return self._to_decimal(value) <= self._to_decimal(expected)
-            case "between":
-                start, end = self._parse_range(expected)
-                current = self._to_decimal(value)
-                return start <= current <= end
-            case "in":
-                allowed = {str(item).strip().lower() for item in expected}
-                return str(value).strip().lower() in allowed
-            case "not_empty":
-                return value is not None and str(value).strip() != ""
-            case _:
-                return False
+        if operation == "equals":
+            return str(value).strip().lower() == str(expected).strip().lower()
+        if operation == "contains":
+            return str(expected).strip().lower() in str(value).strip().lower()
+        if operation == "gt":
+            return self._to_decimal(value) > self._to_decimal(expected)
+        if operation == "gte":
+            return self._to_decimal(value) >= self._to_decimal(expected)
+        if operation == "lt":
+            return self._to_decimal(value) < self._to_decimal(expected)
+        if operation == "lte":
+            return self._to_decimal(value) <= self._to_decimal(expected)
+        if operation == "between":
+            start, end = self._parse_range(expected)
+            current = self._to_decimal(value)
+            return start <= current <= end
+        if operation == "in":
+            allowed = {str(item).strip().lower() for item in str(expected).split(",")}
+            return str(value).strip().lower() in allowed
+        if operation == "not_empty":
+            return value is not None and str(value).strip() != ""
+        return False
 
     def _parse_range(self, value: Any) -> tuple[Decimal, Decimal]:
+        """Преобразует диапазон фильтрации в пару числовых границ."""
         if isinstance(value, str) and ".." in value:
             start, end = value.split("..", 1)
         elif isinstance(value, (tuple, list)) and len(value) == 2:
@@ -96,12 +101,14 @@ class FilterEngine:
         return self._to_decimal(start), self._to_decimal(end)
 
     def _to_decimal(self, value: Any) -> Decimal:
+        """Преобразует значение в Decimal для корректного числового сравнения."""
         try:
             return Decimal(str(value).replace(",", ".").strip())
         except (InvalidOperation, AttributeError) as exc:
             raise ValueError(f"Невозможно сравнить нечисловое значение: {value!r}") from exc
 
     def _normalize_sort_value(self, value: Any) -> tuple[int, Any]:
+        """Нормализует значение перед сортировкой."""
         if value is None or str(value).strip() == "":
             return (1, "")
         try:

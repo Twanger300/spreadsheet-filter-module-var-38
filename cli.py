@@ -6,19 +6,21 @@ import argparse
 import sys
 from pathlib import Path
 
-try:
+if __package__:
     from .filter_engine import FilterEngine
-    from .io import read_csv, read_xlsx, write_csv, write_xlsx
+    from .io_helpers import read_csv, read_xlsx, write_csv, write_xlsx
     from .models import FilterCondition
     from .presets_db import PresetRepository
-except ImportError:  # Позволяет запускать cli.py напрямую из IDE, например из PyCharm
-    package_root = Path(__file__).resolve().parents[1]
-    sys.path.insert(0, str(package_root))
+else:
+    # Этот блок нужен для прямого запуска файла cli.py из PyCharm.
+    # При таком запуске Python не видит пакет spreadsheet_filter,
+    # поэтому в путь импорта добавляется папка с текущими модулями.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-    from spreadsheet_filter.filter_engine import FilterEngine
-    from spreadsheet_filter.io import read_csv, read_xlsx, write_csv, write_xlsx
-    from spreadsheet_filter.models import FilterCondition
-    from spreadsheet_filter.presets_db import PresetRepository
+    from filter_engine import FilterEngine
+    from io_helpers import read_csv, read_xlsx, write_csv, write_xlsx
+    from models import FilterCondition
+    from presets_db import PresetRepository
 
 
 class RussianArgumentParser(argparse.ArgumentParser):
@@ -99,7 +101,11 @@ def main() -> None:
     input_path = Path(args.input_file)
     output_path = Path(args.output_file)
 
-    rows = read_xlsx(input_path) if input_path.suffix.lower() == ".xlsx" else read_csv(input_path)
+    if input_path.suffix.lower() == ".xlsx":
+        rows = read_xlsx(input_path)
+    else:
+        rows = read_csv(input_path)
+
     conditions = [FilterCondition(column, operation, value) for column, operation, value in args.filter]
 
     engine = FilterEngine()
