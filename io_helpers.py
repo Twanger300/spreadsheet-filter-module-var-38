@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
-from typing import Any, Optional, TextIO, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
+
+if TYPE_CHECKING:
+    from _typeshed import SupportsWrite
 
 from openpyxl import Workbook, load_workbook
 
@@ -15,16 +18,15 @@ PathValue = Union[str, Path]
 def read_csv(path: PathValue) -> list[Row]:
     """Читает CSV-файл как список словарей."""
     with Path(path).open(newline="", encoding="utf-8-sig") as file:
-        text_file = cast(TextIO, file)
-        return list(csv.DictReader(text_file))
+        return list(csv.DictReader(file))
 
 
 def write_csv(path: PathValue, rows: list[Row]) -> None:
     """Записывает строки в CSV. Если строк нет, создает пустой файл."""
     fieldnames = list(rows[0].keys()) if rows else []
     with Path(path).open("w", newline="", encoding="utf-8-sig") as file:
-        text_file = cast(TextIO, file)
-        writer = csv.DictWriter(text_file, fieldnames=fieldnames)
+        csv_file: SupportsWrite[str] = cast("SupportsWrite[str]", file)
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         if fieldnames:
             writer.writeheader()
             writer.writerows(rows)

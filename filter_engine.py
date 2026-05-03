@@ -90,7 +90,8 @@ class FilterEngine:
             return value is not None and str(value).strip() != ""
         return False
 
-    def _parse_range(self, value: Any) -> tuple[Decimal, Decimal]:
+    @staticmethod
+    def _parse_range(value: Any) -> tuple[Decimal, Decimal]:
         """Преобразует диапазон фильтрации в пару числовых границ."""
         if isinstance(value, str) and ".." in value:
             start, end = value.split("..", 1)
@@ -98,20 +99,22 @@ class FilterEngine:
             start, end = value
         else:
             raise ValueError("Операция between ожидает значение формата 'начало..конец' или пару значений")
-        return self._to_decimal(start), self._to_decimal(end)
+        return FilterEngine._to_decimal(start), FilterEngine._to_decimal(end)
 
-    def _to_decimal(self, value: Any) -> Decimal:
+    @staticmethod
+    def _to_decimal(value: Any) -> Decimal:
         """Преобразует значение в Decimal для корректного числового сравнения."""
         try:
             return Decimal(str(value).replace(",", ".").strip())
         except (InvalidOperation, AttributeError) as exc:
             raise ValueError(f"Невозможно сравнить нечисловое значение: {value!r}") from exc
 
-    def _normalize_sort_value(self, value: Any) -> tuple[int, Any]:
+    @staticmethod
+    def _normalize_sort_value(value: Any) -> tuple[int, Any]:
         """Нормализует значение перед сортировкой."""
         if value is None or str(value).strip() == "":
-            return (1, "")
+            return 1, ""
         try:
-            return (0, self._to_decimal(value))
+            return 0, FilterEngine._to_decimal(value)
         except ValueError:
-            return (0, str(value).strip().lower())
+            return 0, str(value).strip().lower()
