@@ -7,3 +7,5 @@ dist/
 build/
 *.egg-info/
 data/result.csv
+
+*.db
