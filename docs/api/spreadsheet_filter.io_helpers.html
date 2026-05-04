@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module spreadsheet_filter.io_helpers</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="spreadsheet_filter.html" class="white">spreadsheet_filter</a>.io_helpers</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cwork%5Cspreadsheet-filter-module-var-38%5Csrc%5Cspreadsheet_filter%5Cio_helpers.py">d:\work\spreadsheet-filter-module-var-38\src\spreadsheet_filter\io_helpers.py</a></td></tr></table>
+    <p><span class="code">Вспомогательные&nbsp;функции&nbsp;для&nbsp;чтения&nbsp;и&nbsp;записи&nbsp;CSV-&nbsp;и&nbsp;XLSX-файлов.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="csv.html">csv</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-read_csv"><strong>read_csv</strong></a>(path: 'PathValue') -&gt; 'list[Row]'</dt><dd><span class="code">Читает&nbsp;CSV-файл&nbsp;как&nbsp;список&nbsp;словарей.</span></dd></dl>
+ <dl><dt><a name="-read_xlsx"><strong>read_xlsx</strong></a>(path: 'PathValue', sheet_name: 'Optional[str]' = None) -&gt; 'list[Row]'</dt><dd><span class="code">Читает&nbsp;первый&nbsp;лист&nbsp;или&nbsp;выбранный&nbsp;лист&nbsp;из&nbsp;XLSX-файла.</span></dd></dl>
+ <dl><dt><a name="-write_csv"><strong>write_csv</strong></a>(path: 'PathValue', rows: 'list[Row]') -&gt; 'None'</dt><dd><span class="code">Записывает&nbsp;строки&nbsp;в&nbsp;CSV.&nbsp;Если&nbsp;строк&nbsp;нет,&nbsp;создает&nbsp;пустой&nbsp;файл.</span></dd></dl>
+ <dl><dt><a name="-write_xlsx"><strong>write_xlsx</strong></a>(path: 'PathValue', rows: 'list[Row]', sheet_name: 'str' = 'Отфильтровано') -&gt; 'None'</dt><dd><span class="code">Записывает&nbsp;строки&nbsp;на&nbsp;лист&nbsp;XLSX-файла.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>Optional</strong> = typing.Optional<br>
+<strong>PathValue</strong> = typing.Union[str, pathlib.Path]<br>
+<strong>Row</strong> = dict[str, typing.Any]<br>
+<strong>TYPE_CHECKING</strong> = False<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>

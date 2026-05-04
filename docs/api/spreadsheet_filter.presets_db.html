@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module spreadsheet_filter.presets_db</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="spreadsheet_filter.html" class="white">spreadsheet_filter</a>.presets_db</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:d%3A%5Cwork%5Cspreadsheet-filter-module-var-38%5Csrc%5Cspreadsheet_filter%5Cpresets_db.py">d:\work\spreadsheet-filter-module-var-38\src\spreadsheet_filter\presets_db.py</a></td></tr></table>
+    <p><span class="code">SQLite-хранилище&nbsp;шаблонов&nbsp;фильтрации&nbsp;и&nbsp;истории&nbsp;операций.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="sqlite3.html">sqlite3</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="spreadsheet_filter.presets_db.html#PresetRepository">PresetRepository</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="PresetRepository">class <strong>PresetRepository</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#PresetRepository">PresetRepository</a>(db_path:&nbsp;'str&nbsp;|&nbsp;Path'&nbsp;=&nbsp;'filter_presets.db')&nbsp;-&amp;gt;&nbsp;'None'<br>
+&nbsp;<br>
+Репозиторий&nbsp;для&nbsp;сохранения&nbsp;шаблонов&nbsp;фильтрации&nbsp;и&nbsp;ведения&nbsp;журнала&nbsp;операций.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="PresetRepository-__init__"><strong>__init__</strong></a>(self, db_path: 'str | Path' = 'filter_presets.db') -&gt; 'None'</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="PresetRepository-list_presets"><strong>list_presets</strong></a>(self) -&gt; 'list[dict[str, Any]]'</dt><dd><span class="code">Возвращает&nbsp;список&nbsp;сохраненных&nbsp;шаблонов&nbsp;фильтрации.</span></dd></dl>
+
+<dl><dt><a name="PresetRepository-log_operation"><strong>log_operation</strong></a>(self, input_file: 'str', output_file: 'str', rows_before: 'int', rows_after: 'int') -&gt; 'None'</dt><dd><span class="code">Добавляет&nbsp;запись&nbsp;о&nbsp;выполненной&nbsp;фильтрации&nbsp;в&nbsp;журнал&nbsp;операций.</span></dd></dl>
+
+<dl><dt><a name="PresetRepository-save_preset"><strong>save_preset</strong></a>(self, name: 'str', conditions: 'list[dict[str, Any]]') -&gt; 'None'</dt><dd><span class="code">Сохраняет&nbsp;или&nbsp;обновляет&nbsp;шаблон&nbsp;фильтрации.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>SCHEMA</strong> = '<span class="repr">\n</span>CREATE TABLE IF NOT EXISTS filter_presets (<span class="repr">\n</span>   ...NTEGER NOT NULL,<span class="repr">\n</span>    created_at TEXT NOT NULL<span class="repr">\n</span>);<span class="repr">\n</span>'</td></tr></table>
+</body></html>
